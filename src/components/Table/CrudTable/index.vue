@@ -51,6 +51,7 @@
         select-on-row-click
         :row-selection-allow-uncheck="true"
         @select-change="handleSelectChange"
+        @filter-change="handleFilterChange"
         :tree="treeOptions"
         :scroll="virtual ? { type: 'virtual' } : undefined"
         bordered

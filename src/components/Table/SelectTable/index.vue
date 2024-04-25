@@ -19,6 +19,7 @@
       select-on-row-click
       :row-selection-allow-uncheck="true"
       @select-change="handleSelectChange"
+      @filter-change="handleFilterChange"
       :scroll="virtual ? { type: 'virtual' } : undefined"
       bordered
       lazy-load
@@ -35,6 +36,7 @@
       select-on-row-click
       :row-selection-allow-uncheck="true"
       @select-change="handleSelectChange"
+      @filter-change="handleFilterChange"
       :scroll="virtual ? { type: 'virtual' } : undefined"
       bordered
       lazy-load
@@ -62,7 +64,7 @@ const props = defineProps([
   "virtual"
 ]);
 
-const emits = defineEmits(["onCancel", "onConfirm", "currentChange"]);
+const emits = defineEmits(["onCancel", "onConfirm", "filterChange"]);
 
 const tableColumns = reactive([
   {
@@ -81,6 +83,10 @@ const selectedRow = reactive({
 const handleSelectChange = (keys: any, options: any) => {
   selectedRow.keys = keys;
   selectedRow.options = options;
+};
+
+const handleFilterChange = (filters: any, ctx: any) => {
+  emits("filterChange", filters, ctx);
 };
 
 const handleCancel = () => {

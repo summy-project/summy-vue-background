@@ -112,7 +112,9 @@ const findAllList = async () => {
   pageData.loading = true;
   const resultData = await http("GET", GET_LIST_PATH);
   if (resultData.status === "success") {
-    pageData.tableData = resultData.data;
+    if (resultData.data) {
+      pageData.tableData = resultData.data;
+    }
     pageData.loading = false;
   }
 };

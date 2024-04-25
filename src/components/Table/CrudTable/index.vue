@@ -33,6 +33,7 @@
         select-on-row-click
         :row-selection-allow-uncheck="true"
         @select-change="handleSelectChange"
+        @filter-change="handleFilterChange"
         :scroll="virtual ? { type: 'virtual' } : undefined"
         bordered
         lazy-load
@@ -78,7 +79,7 @@ const props = defineProps([
   "virtual"
 ]);
 
-const emits = defineEmits(["currentChange"]);
+const emits = defineEmits(["currentChange", "filterChange"]);
 
 const tableColumns = ref<TableProps["columns"]>([
   ...props.columns,
@@ -116,5 +117,9 @@ const handleSelectChange = (keys: any, options: any) => {
     options
   };
   emits("currentChange", emitData);
+};
+
+const handleFilterChange = (filters: any, ctx: any) => {
+  emits("filterChange", filters, ctx);
 };
 </script>

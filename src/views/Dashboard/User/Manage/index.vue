@@ -27,7 +27,9 @@ import { ref, computed, reactive } from "vue";
 import { DialogPlugin, MessagePlugin, type TableProps } from "tdesign-vue-next";
 
 import { http } from "@/utils/fetch";
-import { RESERVED_USERS } from "@/common/constants";
+import { getValueBySelectData } from "@/utils/tools";
+
+import { RESERVED_USERS, GENDER_DATA, STATUS_DATA } from "@/common/constants";
 
 import CrudTable from "@/components/Table/CrudTable/index.vue";
 import EditForm from "./components/EditForm.vue";
@@ -46,7 +48,7 @@ const pageData = reactive<Record<string, any>>({
     id: "",
     userName: "",
     gender: "",
-    userStatus: ""
+    status: ""
   }
 });
 
@@ -148,20 +150,11 @@ const tableColumns = ref<TableProps["columns"]>([
     width: 150,
     // 根据 gender 值显示不同的性别
     cell: (h, { row }) => {
-      if (row.gender == "1") {
-        return "男";
-      } else if (row.gender == "2") {
-        return "女";
-      } else {
-        return "未指定";
-      }
+      return `${getValueBySelectData(GENDER_DATA, row.gender)}`;
     },
     filter: {
       type: "single",
-      list: [
-        { label: "男", value: "1" },
-        { label: "女", value: "2" }
-      ],
+      list: GENDER_DATA,
       resetValue: "",
       confirmEvents: ["onEnter"],
       showConfirmAndReset: true
@@ -169,25 +162,16 @@ const tableColumns = ref<TableProps["columns"]>([
   },
   { colKey: "phone", title: "电话号码", width: 200 },
   {
-    colKey: "userStatus",
+    colKey: "status",
     title: "用户状态",
     width: 150,
     // 根据 userStatus 显示不同的状态标签
     cell: (h, { row }) => {
-      if (row.userStatus == "1") {
-        return <t-tag theme="success">已启用</t-tag>;
-      } else if (row.userStatus == "2") {
-        return <t-tag theme="warning">未启用</t-tag>;
-      } else {
-        return <t-tag>没有定义</t-tag>;
-      }
+      return `${getValueBySelectData(STATUS_DATA, row.status)}`;
     },
     filter: {
       type: "single",
-      list: [
-        { label: "已启用", value: "1" },
-        { label: "未启用", value: "2" }
-      ],
+      list: STATUS_DATA,
       resetValue: "",
       confirmEvents: ["onEnter"],
       showConfirmAndReset: true

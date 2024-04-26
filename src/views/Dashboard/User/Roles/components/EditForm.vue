@@ -31,11 +31,12 @@
           v-model="pageData.formData.codeType"
           @change="handleCodeTypeChange"
         >
-          <t-option label="超级管理员" value="root" />
-          <t-option label="管理员" value="admin" />
-          <t-option label="普通用户" value="user" />
-          <t-option label="游客" value="visitor" />
-          <t-option label="自定义" value="custom" />
+          <t-option
+            v-for="item in ROLE_CODE_TYPE_DATA"
+            :key="item"
+            :label="item.label"
+            :value="item.value"
+          ></t-option>
         </t-select>
       </t-form-item>
       <t-form-item label="角色代号" name="id">
@@ -54,6 +55,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { http } from "@/utils/fetch";
+import { ROLE_CODE_TYPE_DATA } from "@/common/constants";
 // import { v4 as uuidv4 } from "uuid";
 
 const props = defineProps(["id", "dialogVisible", "mode"]);

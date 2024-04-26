@@ -35,8 +35,12 @@
 
       <t-form-item name="gender" label="性别">
         <t-select v-model="pageData.formData.gender">
-          <t-option key="1" label="男" value="1" />
-          <t-option key="2" label="女" value="2" />
+          <t-option
+            :label="item.label"
+            :value="item.value"
+            v-for="item in GENDER_DATA"
+            :key="item.value"
+          />
         </t-select>
       </t-form-item>
 
@@ -72,6 +76,7 @@ import {
 
 import { http } from "@/utils/fetch";
 import { sha256 } from "@/utils/tools";
+import { GENDER_DATA } from "@/common/constants";
 
 const router = useRouter();
 const formInstance = ref<FormInstanceFunctions | null>(null);
@@ -93,7 +98,7 @@ const pageData = reactive<Record<string, any>>({
     gender: "",
     birthDay: "",
     hasDeleted: false,
-    userStatus: "1",
+    status: "1",
     avatarUrl: "",
     roleIds: ["user"],
     inviteCode: ""

@@ -34,9 +34,12 @@
       </t-form-item>
       <t-form-item label="性别" name="gender">
         <t-select v-model="pageData.formData.gender">
-          <t-option label="男性" value="1" />
-          <t-option label="女性" value="2" />
-          <t-option label="未指定" value="0" />
+          <t-option
+            :label="item.label"
+            :value="item.value"
+            v-for="item in GENDER_DATA"
+            :key="item.value"
+          />
         </t-select>
       </t-form-item>
       <t-form-item label="出生日期">
@@ -70,10 +73,14 @@
           ></t-option>
         </t-select>
       </t-form-item>
-      <t-form-item label="用户状态" name="userStatus">
-        <t-select v-model="pageData.formData.userStatus">
-          <t-option label="启用" value="1" />
-          <t-option label="禁用" value="2" />
+      <t-form-item label="用户状态" name="status">
+        <t-select v-model="pageData.formData.status">
+          <t-option
+            :label="item.label"
+            :value="item.value"
+            v-for="item in STATUS_DATA"
+            :key="item.value"
+          />
         </t-select>
       </t-form-item>
       <t-form-item label="备注" name="remark">
@@ -89,6 +96,7 @@ import { reactive, ref, toRaw } from "vue";
 import { http } from "@/utils/fetch";
 import { sha256 } from "@/utils/tools";
 import { isArray } from "radash";
+import { GENDER_DATA, STATUS_DATA } from "@/common/constants";
 // import { v4 as uuidv4 } from "uuid";
 
 import { useUserStore } from "@/stores/modules/user";
@@ -125,7 +133,7 @@ const pageData = reactive<Record<string, any>>({
     gender: "",
     birthDay: "",
     hasDeleted: false,
-    userStatus: "1",
+    status: "1",
     avatarUrl: "",
     roleIds: []
   },
@@ -158,7 +166,7 @@ const pageData = reactive<Record<string, any>>({
         trigger: "blur"
       }
     ],
-    userStatus: [
+    status: [
       {
         required: true,
         message: "请指定性用户状态。",
@@ -214,7 +222,7 @@ const initFormData = async (id = "") => {
  * 查询所有角色信息，用于选择表格。
  */
 const initRoleSelectData = async () => {
-  const resultData = await http("GET", "/user/role/findAll");
+  const resultData = await http("POST", "/user/role/findAll", {});
   pageData.roleSelectData = resultData.data;
 };
 
@@ -244,7 +252,7 @@ const handleSubmit = async () => {
     }
 
     if (!postFormData.roleIds.includes("user")) {
-      MessagePlugin.error("至少分配为“普通用户”。");
+      MessagePlugin.error("至少分配为“常规用户”。");
       return;
     }
 

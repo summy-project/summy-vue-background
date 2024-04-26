@@ -26,8 +26,9 @@
 import { ref, computed, reactive } from "vue";
 import { DialogPlugin, MessagePlugin, type TableProps } from "tdesign-vue-next";
 
-import { RESERVED_ROLES } from "@/common/constants";
 import { http } from "@/utils/fetch";
+import { getValueBySelectData } from "@/utils/tools";
+import { RESERVED_ROLES, ROLE_CODE_TYPE_DATA } from "@/common/constants";
 
 import CrudTable from "@/components/Table/CrudTable/index.vue";
 import EditForm from "./components/EditForm.vue";
@@ -141,29 +142,11 @@ const tableColumns = ref<TableProps["columns"]>([
     colKey: "codeType",
     title: "角色类型",
     cell: (h, { row }) => {
-      if (row.codeType == "root") {
-        return "超级管理员";
-      } else if (row.codeType == "admin") {
-        return "普通管理员";
-      } else if (row.codeType == "user") {
-        return "普通用户";
-      } else if (row.codeType == "visitor") {
-        return "游客";
-      } else if (row.codeType == "custom") {
-        return "自定义";
-      } else {
-        return "没有定义";
-      }
+      return `${getValueBySelectData(ROLE_CODE_TYPE_DATA, row.codeType)}`;
     },
     filter: {
       type: "single",
-      list: [
-        { label: "超级管理员", value: "root" },
-        { label: "普通管理员", value: "admin" },
-        { label: "普通用户", value: "user" },
-        { label: "游客", value: "visitor" },
-        { label: "自定义", value: "custom" }
-      ],
+      list: ROLE_CODE_TYPE_DATA,
       resetValue: "",
       confirmEvents: ["onEnter"],
       showConfirmAndReset: true

@@ -45,7 +45,7 @@ const pageData = reactive<Record<string, any>>({
     id: "",
     userName: "",
     gender: "",
-    userStatus: ""
+    status: ""
   }
 });
 

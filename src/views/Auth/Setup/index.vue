@@ -77,7 +77,7 @@ const pageData = reactive<Record<string, any>>({
     gender: "",
     birthDay: "",
     hasDeleted: false,
-    userStatus: "1",
+    status: "1",
     avatarUrl: "",
     roleIds: ["user", "root"],
     inviteCode: ""
@@ -98,7 +98,7 @@ const pageData = reactive<Record<string, any>>({
     gender: "",
     birthDay: "",
     hasDeleted: false,
-    userStatus: "1",
+    status: "1",
     avatarUrl: "",
     roleIds: ["visitor"],
     inviteCode: ""
@@ -121,7 +121,7 @@ const pageData = reactive<Record<string, any>>({
       createdBy: "",
       updatedBy: "",
       remark: "",
-      roleName: "管理员",
+      roleName: "常规管理员",
       codeType: "admin"
     },
     {
@@ -131,7 +131,7 @@ const pageData = reactive<Record<string, any>>({
       createdBy: "",
       updatedBy: "",
       remark: "",
-      roleName: "普通用户",
+      roleName: "常规用户",
       codeType: "user"
     },
     {

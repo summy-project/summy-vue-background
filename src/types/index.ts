@@ -1,1 +1,4 @@
-interface DialogMode {}
+export interface SelectDataType {
+  label: string;
+  value: string | number;
+}

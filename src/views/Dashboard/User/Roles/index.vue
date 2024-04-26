@@ -43,6 +43,7 @@ const pageData = reactive<Record<string, any>>({
   showEditForm: false,
   editFormMode: "",
   filterValue: {
+    id: "",
     roleName: "",
     codeName: ""
   }

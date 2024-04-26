@@ -4,7 +4,9 @@
     :buttons="tableButtons"
     row-selection-type="single"
     :columns="tableColumns"
+    :filterValue="pageData.filterValue"
     @currentChange="currentChange"
+    @filterChange="filterChange"
     :tableData="pageData.tableData"
     :loading="pageData.loading"
     :virtual="true"
@@ -38,7 +40,13 @@ const pageData = reactive<Record<string, any>>({
   selectedRow: {},
   selectedRowId: "",
   showEditForm: false,
-  editFormMode: ""
+  editFormMode: "",
+  filterValue: {
+    id: "",
+    userName: "",
+    gender: "",
+    userStatus: ""
+  }
 });
 
 // 表格操作按钮配置
@@ -108,7 +116,10 @@ const tableColumns = ref<TableProps["columns"]>([
     title: "字典大类",
     filter: {
       type: "input",
-      confirmEvents: ["onEnter"]
+      resetValue: "",
+      // 按下 Enter 键时也触发确认搜索
+      confirmEvents: ["onEnter"],
+      showConfirmAndReset: true
     }
   },
   {
@@ -116,7 +127,10 @@ const tableColumns = ref<TableProps["columns"]>([
     title: "字典名称",
     filter: {
       type: "input",
-      confirmEvents: ["onEnter"]
+      resetValue: "",
+      // 按下 Enter 键时也触发确认搜索
+      confirmEvents: ["onEnter"],
+      showConfirmAndReset: true
     }
   },
   {
@@ -124,7 +138,10 @@ const tableColumns = ref<TableProps["columns"]>([
     title: "字典值",
     filter: {
       type: "input",
-      confirmEvents: ["onEnter"]
+      resetValue: "",
+      // 按下 Enter 键时也触发确认搜索
+      confirmEvents: ["onEnter"],
+      showConfirmAndReset: true
     }
   }
 ]);
@@ -132,7 +149,7 @@ const tableColumns = ref<TableProps["columns"]>([
 // 获取列表数据
 const findAllList = async () => {
   pageData.loading = true;
-  const resultData = await http("GET", GET_LIST_PATH);
+  const resultData = await http("POST", GET_LIST_PATH, pageData.filterValue);
   if (resultData.status === "success") {
     if (resultData.data) {
       pageData.tableData = resultData.data;
@@ -145,6 +162,12 @@ const findAllList = async () => {
 const currentChange = (e: Record<string, any>) => {
   pageData.selectedRow = e.options.selectedRowData[0];
   pageData.selectedRowId = e.options.selectedRowData[0].id;
+};
+
+// 过滤事件触发函数
+const filterChange = (filters: Record<string, any>) => {
+  pageData.filterValue = filters;
+  findAllList();
 };
 
 // 对话框关闭时的处理函数

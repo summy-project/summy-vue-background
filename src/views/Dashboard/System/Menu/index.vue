@@ -104,8 +104,8 @@ const tableButtons = computed(() => [
 // 表格列配置
 const tableColumns = ref<TableProps["columns"]>([
   {
-    colKey: "dictType",
-    title: "字典大类",
+    colKey: "name",
+    title: "菜单名称",
     filter: {
       type: "input",
       confirmEvents: ["onEnter"]

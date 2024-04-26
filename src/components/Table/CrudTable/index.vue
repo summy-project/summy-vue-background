@@ -112,7 +112,10 @@ const tableColumns = ref<TableProps["columns"]>([
   }
 ]);
 
-const handleSelectChange = (keys: any, options: any) => {
+const handleSelectChange = (
+  keys: Array<Number | String>,
+  options: Record<string, any>
+) => {
   const emitData = {
     keys,
     options
@@ -120,7 +123,10 @@ const handleSelectChange = (keys: any, options: any) => {
   emits("currentChange", emitData);
 };
 
-const handleFilterChange = (filters: any, ctx: any) => {
+const handleFilterChange = (
+  filters: Record<string, any>,
+  ctx: Record<string, any>
+) => {
   emits("filterChange", filters, ctx);
 };
 </script>

@@ -14,6 +14,7 @@
       :row-key="rowKey || 'id'"
       :data="tableData"
       :columns="tableColumns"
+      :filter-value="filterValue"
       table-layout="auto"
       :max-height="tableMaxHeight || 300"
       select-on-row-click
@@ -30,6 +31,7 @@
       :row-key="rowKey || 'id'"
       :data="tableData"
       :columns="tableColumns"
+      :filter-value="filterValue"
       table-layout="auto"
       :treeOptions="treeOptions"
       :max-height="tableMaxHeight || 300"
@@ -60,6 +62,7 @@ const props = defineProps([
   "rowSelectionType",
   "tableData",
   "columns",
+  "filterValue",
   "tableMaxHeight",
   "virtual"
 ]);
@@ -75,17 +78,23 @@ const tableColumns = reactive([
   ...props.columns
 ]);
 
-const selectedRow = reactive({
+const selectedRow = reactive<Record<string, any>>({
   keys: [],
   options: {}
 });
 
-const handleSelectChange = (keys: any, options: any) => {
+const handleSelectChange = (
+  keys: Array<string | number>,
+  options: Record<string, any>
+) => {
   selectedRow.keys = keys;
   selectedRow.options = options;
 };
 
-const handleFilterChange = (filters: any, ctx: any) => {
+const handleFilterChange = (
+  filters: Record<string, any>,
+  ctx: Record<string, any>
+) => {
   emits("filterChange", filters, ctx);
 };
 

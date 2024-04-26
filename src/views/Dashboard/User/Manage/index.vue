@@ -4,7 +4,9 @@
     :buttons="tableButtons"
     row-selection-type="single"
     :columns="tableColumns"
+    :filterValue="pageData.filterValue"
     @currentChange="currentChange"
+    @filterChange="filterChange"
     :tableData="pageData.tableData"
     :loading="pageData.loading"
     :virtual="true"
@@ -39,7 +41,13 @@ const pageData = reactive<Record<string, any>>({
   selectedRow: {},
   selectedRowId: "",
   showEditForm: false,
-  editFormMode: ""
+  editFormMode: "",
+  filterValue: {
+    id: "",
+    userName: "",
+    gender: "",
+    userStatus: ""
+  }
 });
 
 // 表格操作按钮配置
@@ -114,8 +122,13 @@ const tableColumns = ref<TableProps["columns"]>([
     width: 150,
     filter: {
       type: "input",
-      confirmEvents: ["onEnter"]
-    }
+      resetValue: "",
+      // 按下 Enter 键时也触发确认搜索
+      confirmEvents: ["onEnter"],
+      // 是否显示重置取消按钮，一般情况不需要显示
+      showConfirmAndReset: true
+    },
+    fixed: "left"
   },
   {
     colKey: "userName",
@@ -123,7 +136,11 @@ const tableColumns = ref<TableProps["columns"]>([
     width: 150,
     filter: {
       type: "input",
-      confirmEvents: ["onEnter"]
+      resetValue: "",
+      // 按下 Enter 键时也触发确认搜索
+      confirmEvents: ["onEnter"],
+      // 是否显示重置取消按钮，一般情况不需要显示
+      showConfirmAndReset: true
     }
   },
   { colKey: "realName", title: "真实姓名", width: 150 },
@@ -140,6 +157,16 @@ const tableColumns = ref<TableProps["columns"]>([
       } else {
         return "未指定";
       }
+    },
+    filter: {
+      type: "single",
+      list: [
+        { label: "男", value: "1" },
+        { label: "女", value: "2" }
+      ],
+      resetValue: "",
+      confirmEvents: ["onEnter"],
+      showConfirmAndReset: true
     }
   },
   { colKey: "phone", title: "电话号码", width: 200 },
@@ -156,6 +183,16 @@ const tableColumns = ref<TableProps["columns"]>([
       } else {
         return <t-tag>没有定义</t-tag>;
       }
+    },
+    filter: {
+      type: "single",
+      list: [
+        { label: "已启用", value: "1" },
+        { label: "未启用", value: "2" }
+      ],
+      resetValue: "",
+      confirmEvents: ["onEnter"],
+      showConfirmAndReset: true
     }
   }
 ]);
@@ -163,7 +200,7 @@ const tableColumns = ref<TableProps["columns"]>([
 // 获取列表数据
 const findAllList = async () => {
   pageData.loading = true;
-  const resultData = await http("GET", GET_LIST_PATH);
+  const resultData = await http("POST", GET_LIST_PATH, pageData.filterValue);
   if (resultData.status === "success") {
     if (resultData.data) {
       pageData.tableData = resultData.data;
@@ -176,6 +213,12 @@ const findAllList = async () => {
 const currentChange = (e: Record<string, any>) => {
   pageData.selectedRow = e.options.selectedRowData[0];
   pageData.selectedRowId = e.options.selectedRowData[0].id;
+};
+
+// 过滤事件触发函数
+const filterChange = (filters: Record<string, any>) => {
+  pageData.filterValue = filters;
+  findAllList();
 };
 
 // 对话框关闭时的处理函数

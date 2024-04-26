@@ -125,7 +125,6 @@ const tableColumns = ref<TableProps["columns"]>([
       resetValue: "",
       // 按下 Enter 键时也触发确认搜索
       confirmEvents: ["onEnter"],
-      // 是否显示重置取消按钮，一般情况不需要显示
       showConfirmAndReset: true
     },
     fixed: "left"
@@ -139,7 +138,6 @@ const tableColumns = ref<TableProps["columns"]>([
       resetValue: "",
       // 按下 Enter 键时也触发确认搜索
       confirmEvents: ["onEnter"],
-      // 是否显示重置取消按钮，一般情况不需要显示
       showConfirmAndReset: true
     }
   },

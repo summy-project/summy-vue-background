@@ -46,7 +46,7 @@ onUnmounted(() => {
 // 监听props.option的变化，以更新图表选项
 watch(
   () => props.option,
-  (newOption: Record<string, any>) => {
+  (newOption: echarts.EChartsOption) => {
     chartInstance.setOption(newOption);
   }
 );

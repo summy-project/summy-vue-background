@@ -23,7 +23,7 @@
       :rules="pageData.formRules"
       :disabled="pageData.readOnly"
     >
-      <t-form-item label="用户ID" name="userId">
+      <t-form-item label="用户ID" name="id">
         <t-input v-model="pageData.formData.id" />
       </t-form-item>
       <t-form-item label="用户名" name="userName">
@@ -142,22 +142,46 @@ const pageData = reactive<Record<string, any>>({
         trigger: "blur"
       }
     ],
-    password: [
+    oldPassword: [
       {
         required: true,
-        message: "请输入密码。",
+        message: "请输入当前密码。",
         type: "error",
         trigger: "blur"
       }
     ],
-    confirmPassword: [
+    gender: [
       {
         required: true,
-        message: "请输入密码。",
+        message: "请指定性别。",
+        type: "error",
+        trigger: "blur"
+      }
+    ],
+    userStatus: [
+      {
+        required: true,
+        message: "请指定性用户状态。",
         type: "error",
         trigger: "blur"
       }
     ]
+    // password: [
+    //   {
+    //     required: true,
+    //     message: "请输入密码。",
+    //     type: "error",
+    //     trigger: "blur"
+    //   }
+    // ],
+    // confirmPassword: [
+    //   {
+    //     required: true,
+    //     message: "请输入密码。",
+    //     type: "error",
+    //     trigger: "blur"
+    //   }
+    // ]
   }
 });
 

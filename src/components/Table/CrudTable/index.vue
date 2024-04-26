@@ -87,7 +87,7 @@ const tableColumns = ref<TableProps["columns"]>([
   {
     colKey: "createdTime",
     title: "创建时间",
-    sorter: true,
+    // sorter: true,
     width: 200,
     cell: (h, { row }) => {
       return dayjs(row.createdTime).format("YYYY-MM-DD HH:mm:ss");
@@ -97,7 +97,7 @@ const tableColumns = ref<TableProps["columns"]>([
     colKey: "updatedTime",
     title: "更新时间",
     width: 200,
-    sorter: true,
+    // sorter: true,
     cell: (h, { row }) => {
       if (row.updatedTime === null || row.updatedTime === "") {
         return "没有记录";

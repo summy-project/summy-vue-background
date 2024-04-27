@@ -142,7 +142,7 @@ const tableColumns = ref<TableProps["columns"]>([
     colKey: "codeType",
     title: "角色类型",
     cell: (h, { row }) => {
-      return `${getValueBySelectData(ROLE_CODE_TYPE_DATA, row.codeType)}`;
+      return row.codeTypeLabel;
     },
     filter: {
       type: "single",
@@ -160,7 +160,15 @@ const findAllList = async () => {
   const resultData = await http("POST", GET_LIST_PATH, pageData.filterValue);
   if (resultData.status === "success") {
     if (resultData.data) {
-      pageData.tableData = resultData.data;
+      pageData.tableData = resultData.data.map((item: Record<string, any>) => {
+        return {
+          ...item,
+          codeTypeLabel: getValueBySelectData(
+            ROLE_CODE_TYPE_DATA,
+            item.codeType
+          )
+        };
+      });
     }
     pageData.loading = false;
   }

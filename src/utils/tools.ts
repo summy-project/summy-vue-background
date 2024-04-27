@@ -69,7 +69,7 @@ export function getValueBySelectData(
   arr: SelectDataType[],
   input: string | number
 ): string {
-  console.log("run!");
+  // console.log("run!");
   const resultValue = arr.find((item) => item.value === input);
   return resultValue ? resultValue.label : "未指定";
 }

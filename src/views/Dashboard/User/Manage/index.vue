@@ -150,7 +150,7 @@ const tableColumns = ref<TableProps["columns"]>([
     width: 150,
     // 根据 gender 值显示不同的性别
     cell: (h, { row }) => {
-      return `${getValueBySelectData(GENDER_DATA, row.gender)}`;
+      return row.genderLabel;
     },
     filter: {
       type: "single",
@@ -167,7 +167,7 @@ const tableColumns = ref<TableProps["columns"]>([
     width: 150,
     // 根据 userStatus 显示不同的状态标签
     cell: (h, { row }) => {
-      return `${getValueBySelectData(STATUS_DATA, row.status)}`;
+      return row.statusLabel;
     },
     filter: {
       type: "single",
@@ -185,7 +185,13 @@ const findAllList = async () => {
   const resultData = await http("POST", GET_LIST_PATH, pageData.filterValue);
   if (resultData.status === "success") {
     if (resultData.data) {
-      pageData.tableData = resultData.data;
+      pageData.tableData = resultData.data.map((item: Record<string, any>) => {
+        return {
+          ...item,
+          genderLabel: getValueBySelectData(GENDER_DATA, item.gender),
+          statusLabel: getValueBySelectData(STATUS_DATA, item.status)
+        };
+      });
     }
     pageData.loading = false;
   }

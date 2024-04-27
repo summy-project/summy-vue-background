@@ -26,8 +26,11 @@
       <t-form-item label="邀请码" name="id">
         <t-input v-model="pageData.formData.id" disabled />
       </t-form-item>
-      <t-form-item label="使用人" name="usedUserId">
+      <t-form-item label="使用人（ID）" name="usedUserId">
         <t-input v-model="pageData.formData.usedUserId" disabled />
+      </t-form-item>
+      <t-form-item label="使用人（姓名）" name="usedUserName">
+        <t-input v-model="pageData.formData.usedUserName" disabled />
       </t-form-item>
       <t-form-item label="备注" name="remark">
         <t-textarea v-model="pageData.formData.remark" />
@@ -67,7 +70,8 @@ const pageData = reactive<Record<string, any>>({
     createdBy: "",
     updatedBy: "",
     remark: "",
-    usedUserId: ""
+    usedUserId: "",
+    usedUserName: ""
   },
   formRules: {
     id: [

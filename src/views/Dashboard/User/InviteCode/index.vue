@@ -120,7 +120,7 @@ const tableColumns = ref<TableProps["columns"]>([
       showConfirmAndReset: true
     }
   },
-  { colKey: "usedUserId", title: "使用人ID" }
+  { colKey: "usedUserName", title: "使用人" }
 ]);
 
 // 获取列表数据

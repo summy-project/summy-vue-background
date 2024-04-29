@@ -42,7 +42,9 @@
       <t-form-item label="角色代号" name="id">
         <t-input
           v-model="pageData.formData.id"
-          :disabled="pageData.formData.codeType !== 'custom'"
+          :disabled="
+            pageData.formData.codeType !== 'custom' || $props.mode !== 'new'
+          "
         />
       </t-form-item>
       <t-form-item label="备注" name="remark">

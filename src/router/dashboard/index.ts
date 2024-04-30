@@ -8,13 +8,16 @@ export const dashboardRouter = {
   component: DashboardLayout,
   redirect: "/dashboard/home",
   meta: {
-    title: "仪表盘主页"
+    title: "仪表盘"
   },
   children: [
     {
       path: "home",
       name: "dashboard_home",
-      component: () => import("@/views/Dashboard/index.vue")
+      component: () => import("@/views/Dashboard/index.vue"),
+      meta: {
+        title: "仪表盘主页"
+      }
     },
     userRouter,
     systemRouter

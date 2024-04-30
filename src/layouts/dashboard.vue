@@ -17,6 +17,15 @@
     <t-layout>
       <t-header>
         <t-head-menu theme="light">
+          <t-breadcrumb :max-item-width="'150'">
+            <t-breadcrumb-item
+              :to="item.path"
+              v-for="item in routeMenu"
+              :key="item.name"
+            >
+              {{ item.meta.title }}
+            </t-breadcrumb-item>
+          </t-breadcrumb>
           <template #operations>
             <t-dropdown
               :options="pageData.userOptions"
@@ -38,16 +47,19 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { NotifyPlugin } from "tdesign-vue-next";
 
 import { useMenuStore } from "@/stores/modules/menu";
 import { useUserStore } from "@/stores/modules/user";
 
+const route = useRoute();
 const router = useRouter();
 
 const menuStore = useMenuStore();
 const userStore = useUserStore();
+
+const routeMenu = route.matched;
 
 const pageData = reactive<Record<string, any>>({
   userOptions: [

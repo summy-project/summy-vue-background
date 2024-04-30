@@ -68,7 +68,7 @@
           <t-option
             v-for="item in pageData.roleSelectData"
             :key="item"
-            :label="item.roleName"
+            :label="`${item.roleName}（${item.id}）`"
             :value="item.id"
           ></t-option>
         </t-select>

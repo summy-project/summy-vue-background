@@ -21,7 +21,7 @@
         </t-space>
       </t-space>
       <t-table
-        v-if="mode === 'table'"
+        v-if="!mode || mode === 'table'"
         ref="crudTable"
         :row-key="rowKey || 'id'"
         :activeRowType="rowSelectionType || 'single'"
@@ -52,7 +52,7 @@
         :row-selection-allow-uncheck="true"
         @select-change="handleSelectChange"
         @filter-change="handleFilterChange"
-        :tree="treeOptions"
+        :tree="treeOptions || { childrenKey: 'children' }"
         :scroll="virtual ? { type: 'virtual' } : undefined"
         bordered
         lazy-load

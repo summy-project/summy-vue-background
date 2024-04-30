@@ -2,14 +2,14 @@
   <t-dialog
     :width="width ? width : '40%'"
     :visible="showDialog"
-    :on-confirm="handleConfirm"
-    :on-close="handleCancel"
-    :on-cancel="handleCancel"
+    @confirm="handleConfirm"
+    @close="handleCancel"
+    @cancel="handleCancel"
   >
     <template #header>{{ title || "选择内容" }} </template>
 
     <t-table
-      v-if="mode === 'table'"
+      v-if="!mode || mode === 'table'"
       ref="selectTable"
       :row-key="rowKey || 'id'"
       :data="tableData"
@@ -17,6 +17,7 @@
       :filter-value="filterValue"
       table-layout="auto"
       :max-height="tableMaxHeight || 300"
+      :row-selection-type="rowSelectionType || 'single'"
       select-on-row-click
       :row-selection-allow-uncheck="true"
       @select-change="handleSelectChange"
@@ -33,8 +34,9 @@
       :columns="tableColumns"
       :filter-value="filterValue"
       table-layout="auto"
-      :treeOptions="treeOptions"
+      :tree="treeOptions || { childrenKey: 'children' }"
       :max-height="tableMaxHeight || 300"
+      :row-selection-type="rowSelectionType || 'single'"
       select-on-row-click
       :row-selection-allow-uncheck="true"
       @select-change="handleSelectChange"
@@ -47,9 +49,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { reactive, ref } from "vue";
-
-const visible = ref(false);
+import { reactive } from "vue";
 
 const props = defineProps([
   "mode",
@@ -72,6 +72,7 @@ const emits = defineEmits(["onCancel", "onConfirm", "filterChange"]);
 const tableColumns = reactive([
   {
     colKey: "row-select",
+    label: "选择",
     type: props.rowSelectionType,
     width: 50
   },
@@ -87,6 +88,7 @@ const handleSelectChange = (
   keys: Array<string | number>,
   options: Record<string, any>
 ) => {
+  console.dir(options);
   selectedRow.keys = keys;
   selectedRow.options = options;
 };
@@ -99,7 +101,7 @@ const handleFilterChange = (
 };
 
 const handleCancel = () => {
-  emits("onCancel", visible);
+  emits("onCancel");
 };
 
 const handleConfirm = () => {

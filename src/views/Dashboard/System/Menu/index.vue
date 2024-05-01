@@ -1,6 +1,6 @@
 <template>
   <CrudTable
-    mode="table"
+    mode="tree"
     :buttons="tableButtons"
     row-selection-type="single"
     :columns="tableColumns"
@@ -25,6 +25,9 @@ import { ref, computed, reactive } from "vue";
 import { DialogPlugin, MessagePlugin, type TableProps } from "tdesign-vue-next";
 
 import { http } from "@/utils/fetch";
+import { getValueBySelectData } from "@/utils/tools";
+
+import { STATUS_DATA } from "@/common/constants";
 
 import CrudTable from "@/components/Table/CrudTable/index.vue";
 import EditForm from "./components/EditForm.vue";
@@ -106,25 +109,21 @@ const tableColumns = ref<TableProps["columns"]>([
   {
     colKey: "name",
     title: "菜单名称",
-    filter: {
-      type: "input",
-      confirmEvents: ["onEnter"]
-    }
+    fixed: "left"
   },
   {
-    colKey: "name",
-    title: "字典名称",
-    filter: {
-      type: "input",
-      confirmEvents: ["onEnter"]
-    }
+    colKey: "code",
+    title: "菜单代号"
   },
   {
-    colKey: "value",
-    title: "字典值",
-    filter: {
-      type: "input",
-      confirmEvents: ["onEnter"]
+    colKey: "sort",
+    title: "排序"
+  },
+  {
+    colKey: "status",
+    title: "状态",
+    cell: (h, { row }) => {
+      return row.statusLabel;
     }
   }
 ]);
@@ -135,7 +134,12 @@ const findAllList = async () => {
   const resultData = await http("GET", GET_LIST_PATH);
   if (resultData.status === "success") {
     if (resultData.data) {
-      pageData.tableData = resultData.data;
+      pageData.tableData = resultData.data.map((item: Record<string, any>) => {
+        return {
+          ...item,
+          statusLabel: getValueBySelectData(STATUS_DATA, item.status)
+        };
+      });
     }
     pageData.loading = false;
   }

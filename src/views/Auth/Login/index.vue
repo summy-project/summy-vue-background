@@ -47,9 +47,12 @@ import { http } from "@/utils/fetch";
 import { sha256 } from "@/utils/tools";
 
 import { useUserStore } from "@/stores/modules/user";
+import { useMenuStore } from "@/stores/modules/menu";
 
 const router = useRouter();
+
 const userStore = useUserStore();
+const menuStore = useMenuStore();
 
 const formInstance = ref<FormInstanceFunctions | null>(null);
 
@@ -98,6 +101,8 @@ const handleSubmit = async () => {
       } else {
         window.sessionStorage.setItem("userAuthToken", resultData.data.token);
       }
+
+      menuStore.setMenuData(resultData.data.menuData);
 
       await NotifyPlugin.success({ title: "成功", content: "登录成功！" });
       router.push("/dashboard");

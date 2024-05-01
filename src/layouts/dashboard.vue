@@ -1,7 +1,7 @@
 <template>
   <t-layout style="height: 100vh">
     <t-aside>
-      <t-menu value="dashboard" theme="dark" @change="handleChange">
+      <t-menu :value="activeMenuValue" theme="dark" @change="handleChange">
         <t-submenu
           v-for="item in pageData.menuData"
           :value="item.code"
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { NotifyPlugin } from "tdesign-vue-next";
 
@@ -79,8 +79,13 @@ const pageData = reactive<Record<string, any>>({
 
 // 菜单变化时候的点击
 const handleChange = (e: string) => {
+  menuStore.activeMenu = e;
   router.push({ name: e });
 };
+
+const activeMenuValue = computed(() => {
+  return menuStore.activeMenu;
+});
 
 const clickUserHandler = (e: Record<string, any>) => {
   if (e.value === "logout") {

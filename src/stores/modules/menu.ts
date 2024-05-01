@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export interface MenuState {
   activeMenu: string | number | null;
-  menuData: Record<string, any> | null;
+  menuData: Record<string, any>[] | null;
 }
 
 export const useMenuStore = defineStore("menuStore", {
@@ -11,7 +11,7 @@ export const useMenuStore = defineStore("menuStore", {
     menuData: null
   }),
   actions: {
-    setMenuData(menuData: Record<string, any> | null) {
+    setMenuData(menuData: Record<string, any>[] | null) {
       this.$patch({ menuData });
     },
     setActiveMenu(activeMenu: string | number | null) {

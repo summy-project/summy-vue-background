@@ -1,17 +1,23 @@
 <template>
   <t-layout style="height: 100vh">
     <t-aside>
-      <t-menu value="dashboard" theme="dark">
-        <t-menu-item
+      <t-menu value="dashboard" theme="dark" @change="handleChange">
+        <t-submenu
           v-for="item in pageData.menuData"
-          :value="item.menu"
-          :key="item"
+          :value="item.code"
+          :key="item.id"
+          :title="item.name"
         >
+          <t-menu-item
+            v-for="_item in item.children"
+            :key="_item.id"
+            :value="_item.code"
+            >{{ _item.name }}</t-menu-item
+          >
           <template #icon>
-            <t-icon :name="item.icon" />
+            <t-icon :name="item.pcIcon" />
           </template>
-          {{ item.title }}
-        </t-menu-item>
+        </t-submenu>
       </t-menu>
     </t-aside>
     <t-layout>
@@ -71,6 +77,11 @@ const pageData = reactive<Record<string, any>>({
   menuData: []
 });
 
+// 菜单变化时候的点击
+const handleChange = (e: string) => {
+  router.push({ name: e });
+};
+
 const clickUserHandler = (e: Record<string, any>) => {
   if (e.value === "logout") {
     window.sessionStorage.removeItem("userAuthToken");
@@ -82,4 +93,6 @@ const clickUserHandler = (e: Record<string, any>) => {
     router.push("/auth/login");
   }
 };
+
+pageData.menuData = menuStore.menuData;
 </script>

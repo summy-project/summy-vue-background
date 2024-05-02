@@ -65,7 +65,9 @@ const router = useRouter();
 const menuStore = useMenuStore();
 const userStore = useUserStore();
 
-const routeMenu = route.matched;
+const routeMenu = computed(() => {
+  return route.matched;
+});
 
 const pageData = reactive<Record<string, any>>({
   userOptions: [

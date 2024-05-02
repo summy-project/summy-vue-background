@@ -49,7 +49,7 @@
         />
       </t-form-item>
       <t-form-item label="排序" name="sort">
-        <t-input v-model="pageData.formData.sort" type="number " />
+        <t-input v-model="pageData.formData.sort" type="number" />
       </t-form-item>
       <t-form-item label="移动端图标" name="mobileIcon">
         <t-input v-model="pageData.formData.mobileIcon" />

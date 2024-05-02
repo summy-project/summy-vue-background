@@ -48,6 +48,9 @@
           placeholder="顶级菜单不需要填写路由。"
         />
       </t-form-item>
+      <t-form-item label="排序" name="sort">
+        <t-input v-model="pageData.formData.sort" type="number " />
+      </t-form-item>
       <t-form-item label="移动端图标" name="mobileIcon">
         <t-input v-model="pageData.formData.mobileIcon" />
       </t-form-item>
@@ -114,7 +117,7 @@
 <script lang="tsx" setup>
 import { reactive, ref, toRaw } from "vue";
 import { MessagePlugin, type FormInstanceFunctions } from "tdesign-vue-next";
-import { SearchIcon, manifest } from "tdesign-icons-vue-next";
+import { SearchIcon } from "tdesign-icons-vue-next";
 import SelectTable from "@/components/Table/SelectTable/index.vue";
 
 import { http } from "@/utils/fetch";
@@ -136,7 +139,6 @@ const UPDATE_FORM_PATH = "/system/menu/update"; // 更新接口
 
 const userStore = useUserStore();
 
-const iconData = ref(manifest);
 const pageData = reactive<Record<string, any>>({
   readOnly: false,
   formData: {

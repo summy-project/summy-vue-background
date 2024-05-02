@@ -154,7 +154,7 @@ const currentChange = (e: Record<string, any>) => {
 // 对话框关闭时的处理函数
 const handleDialogClose = (e: string) => {
   if (e === "success") {
-    MessagePlugin.success("操作成功！");
+    MessagePlugin.success("操作成功，侧边栏将在下一次登录时更新。");
     findAllList();
   }
   pageData.showEditForm = false;

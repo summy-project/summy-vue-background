@@ -1,6 +1,10 @@
 # 前端（后台管理）
 
-基于 Vue3 + TypeScript 的后台管理系统。使用 TDesign 组件库 构建用户界面。
+基于 Vue3 + TypeScript 的后台管理系统。使用 TDesign 组件库构建用户界面。
+
+- 基于 Vue 3.4，Vue 3.4 带来了很多新特性和新的语法糖，更加方便前端程序员开发项目。
+- 使用 Radash 作为工具库（后端也使用），Radash 是 Lodash 的良好替代品，采用 TypeScript 编写，支持 ES6+ 特性，更加现代。
+- 使用 `fetch()` API 而不是传统前端项目所使用的 `Axios`，`fetch()` 是浏览器原生 API，更加轻量，性能上也更占优势。
 
 ## 安装
 

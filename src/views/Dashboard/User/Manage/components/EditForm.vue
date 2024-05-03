@@ -96,7 +96,11 @@ import { reactive, ref, toRaw } from "vue";
 import { http } from "@/utils/fetch";
 import { sha256 } from "@/utils/tools";
 import { isArray } from "radash";
-import { GENDER_DATA, STATUS_DATA } from "@/common/constants";
+import {
+  GENDER_DATA,
+  LETTER_NUMBER_PASS,
+  STATUS_DATA
+} from "@/common/constants";
 // import { v4 as uuidv4 } from "uuid";
 
 import { useUserStore } from "@/stores/modules/user";
@@ -241,6 +245,11 @@ const handleSubmit = async () => {
 
     const postFormData = structuredClone(toRaw(pageData.formData));
 
+    if (!LETTER_NUMBER_PASS.test(postFormData.password)) {
+      MessagePlugin.error("设置的密码至少要包含字母数字！");
+      return;
+    }
+
     if (postFormData.id === "") {
       MessagePlugin.error("没有指定用户ID。");
       return;
@@ -256,23 +265,25 @@ const handleSubmit = async () => {
       return;
     }
 
+    if (postFormData.roleIds.includes("visitor")) {
+      MessagePlugin.error("注册用户不能被分配为“游客”。");
+      return;
+    }
+
     // 现密码为空，代表用户不准备更改新的密码。
-    if (postFormData.password !== "" || postFormData.password !== null) {
+    if (postFormData.password !== "") {
       // 所以，不需要判断密码一致与否。
       if (postFormData.password !== postFormData.confirmPassword) {
         MessagePlugin.warning("两次输入的密码不一致！");
         return;
       }
       // 新密码，加密后保存。
-      postFormData.password = await sha256(postFormData.oldPassword);
+      postFormData.password = await sha256(postFormData.password);
     }
 
     // 如果不是新建模式，且旧密码非空，则加密旧密码
     if (props.mode !== "new") {
-      if (
-        postFormData.oldPassword !== "" ||
-        postFormData.oldPassword !== null
-      ) {
+      if (postFormData.oldPassword !== "") {
         postFormData.oldPassword = await sha256(postFormData.oldPassword);
       }
     }

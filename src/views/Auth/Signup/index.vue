@@ -76,7 +76,7 @@ import {
 
 import { http } from "@/utils/fetch";
 import { sha256 } from "@/utils/tools";
-import { GENDER_DATA } from "@/common/constants";
+import { GENDER_DATA, LETTER_NUMBER_PASS } from "@/common/constants";
 
 const router = useRouter();
 const formInstance = ref<FormInstanceFunctions | null>(null);
@@ -142,6 +142,11 @@ const handleSubmit: FormProps["onSubmit"] = async () => {
   const validateResult = await formInstance?.value?.validate();
   if (validateResult === true) {
     const postFormData = structuredClone(toRaw(pageData.formData));
+
+    if (!LETTER_NUMBER_PASS.test(postFormData.password)) {
+      MessagePlugin.error("设置的密码至少要包含字母数字！");
+      return;
+    }
 
     if (postFormData.password !== postFormData.confirmPassword) {
       MessagePlugin.warning("两次输入的密码不一致！");
